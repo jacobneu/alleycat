@@ -1,0 +1,42 @@
+    %The aspiration of the present text is to explore the mathematical theory of relations in its glittering totality. This is a complex task: the notions of ``function'' and ``relation'' are so fundamental that examples and intricacies abound. Every field of mathematics has devised numerous uses for these ideas, and
+
+    To ground the forthcoming exploration of the theory of functions and relations, it will prove helpful to discuss these notions at the most elementary level. One of the most intriguing and exciting aspects of studying ``fundamental'' mathematical constructs is the degree to which complex, high-level attributes will be the result of basic assumptions. So in this chapter, we'll attend to the basic attributes of functions and relations, and elementary constructions possible with them. In addition to introducing the main themes of the text (in simple garb), it also gives us an opportunity to introduce the notations we'll use throughout. Our first step will be to see how ``functions'' and ``relations'' can be used to define each other.
+
+    As usual, we think of \keyword{sets} as unordered ``\textit{collections}'' of \textit{elements}. We write $x\in X$ to indicate that $x$ is an element of the set $X$, and $x\not\in X$ to mean that $x$ is not an element of $X$. Sets are governed by (among other ``axioms'') the \keyword{axiom of extensionality}: that if every element of $X$ is an element of $Y$ (expressed more logically: \textit{for any $x$, if $x\in X$, then $x\in Y$}) and vice versa (\textit{for any $y$, if $y\in Y$, then $y\in X$}), then $X$ and $Y$ are the same set. In short: a set is determined \textit{only} by its elements. We can often list off sets by their elements, e.g. $\set{0,3,5}$ is the set whose elements are exactly $0$, $3$, and $5$. Mathematicians have devised an endless variety of different sets, like $\emptyset$ (the empty set, the only set with no elements), and $\Bool = \set{\True,\False}$, and $\N$ (the set of natural numbers, i.e. non-negative integers). Both of our key concepts, function and relation, will be \textit{between} two sets. 
+
+    \subsection{Relations are Functions}
+
+    Let's start by taking functions as primary. Given sets $X$ and $Y$, we can form a \keyword{function} \textit{from} $X$ \textit{to} $Y$ in the following manner: we must supply a \textit{rule} which, for each element of $X$, unambiguously determines an element of $Y$. If we are able to do that, then we can give the function a name (say $f$), and write $f(x)$ for the element of $Y$ determined by $x\in X$. We'll often write $f:X\to Y$ to indicate that $f$ is a function sending elements of $X$ to elements of $Y$, and call $X$ the \keyword{domain} of $f$ and $Y$ the \keyword{codomain} of $f$. When defining a function, we might be obliged to argue that the rule we gave for determining $f(x)$ from $x$ is \keyword{well-defined}. This consists of arguing that (a) for any $x\in X$, the $f(x)$ produced by application of the rule is indeed an element of $Y$, and (b) that there's not two ways of applying the rule to some $x\in X$ which give different answers for what $f(x)$ is.
+
+    Whenever possible, we'll express the rule of a function using \textit{expressions} containing \textit{variables}. For instance, ``$x+x$'' is an expression containing the variable $x$. The \textit{value} of this expression depends on the value supplied for $x$: if $x$ is 5, then $x+x$ is 10, and so on. When we have such an expression $e(x)$ depending only on the variable $x$, where $e(x_0)\in Y$ for every $x_0\in X$, we'll write
+        \[ \lambda x.e(x) \]
+    for the function $f:X\to Y$ which sends each $x_0\in X$ to $f(x_0)=e(x_0)\in Y$. This is known as a \keyword{lambda expression}. We furnish several examples:
+    
+    \Example{lambdas}
+
+    Functions also exhibit a property known as \keyword{extensionality}: if $f$ and $f'$ are both functions $X\to Y$ and it is the case that
+        \[ f(x)=f'(x)\text{ for all $x\in X$} \]
+    then $f$ and $f'$ must be the same function. In other words: a function is determined entirely by its domain, its codomain, and the assignment of elements of domain elements to codomain elements. For instance,
+        \[ (\lambda x.x+3+2) = (\lambda z.z+5) \]
+    since they have the same domain and codomain (e.g. $\Z\to\Z$) and do the same thing to every element of their domain.
+
+    Consider a function $\varphi$ whose codomain is the set $\Bool=\set{\True,\False}$. If $\varphi:X\to\Bool$, then for every $x\in X$, we have that $\varphi$ either ``selects $x$'' ($\varphi(x)=\True$) or ``rejects $x$'' ($\varphi(x)=\False$). A basic operation of set theory is \keyword{set comprehension}, whereby we form the set of just those $x\in X$ such that $\varphi(x)=\True$. We write that set as
+        \[ \compSet{x\in X}{\varphi(x)}. \]
+    This is a \keyword{subset} of $X$: every element of $\compSet{x\in X}{\varphi(x)}$ is also an element of $X$ too, so $\compSet{x\in X}{\varphi(x)}$ is ``contained within'' $X$. We denote this symbolically with $\compSet{x\in X}{\varphi(x)}\sub X$. Every subset of $X$ arises in this way: if $A\sub X$, then let $\chi_A:X\to\Bool$ be the function
+        \[ \lambda x.\ITE{x\in A}{\True}{\False} \]
+    which we'll also express as just $\chi_A = (\lambda x.x\in A)$ if it doesn't cause confusion. Now we claim:
+    \prove[claim]{comprehend-chi}
+
+    So functions $X\to\Bool$ are the same thing as subsets of $X$. This is a fact we'll use in a variety of places.
+
+    We can form the set of \textit{all functions} $Y\to\Bool$, that is, a set whose elements are exactly the functions assigning every element of $Y$ either $\True$ or $\False$. Call this set $\Bool^Y$. Now, consider a function $R$ which has $\Bool^Y$ as its codomain. We'll write this as either
+        \[ R:X\to\Bool^Y \qtq{or} R:X\to(Y\to\Bool) \qtq{or} R:X\to Y\to\Bool. \]
+    What is such a function? Well, $R$ assigns to each $x\in X$ a \textit{function}
+        \[ R(x) : Y \to \Bool \]
+    that is, $R(x)$ is a subset of $Y$. So $R$ assigns elements of $X$ to subsets of $Y$. We'll call this a \keyword{binary relation} between $X$ and $Y$.
+
+    We'll write $R:X\rel Y$ to indicate that $R$ is a binary relation between $X$ and $Y$. Moreover, we'll make use of the following notational convenience: we'll write $xRy$ to mean that $(R(x))(y)=\True$. So $R$ is a gadget which takes a pair of elements, $x\in X$ and $y\in Y$, and either declares them to be \keyword{related} ($(R(x))(y)=\True$) or not ($(R(x))(y)=\False$). So $R(x)$ corresponds to subset of $Y$ consisting of exactly those $y\in Y$ such that $xRy$.
+
+    \Check{relations}
+    
+

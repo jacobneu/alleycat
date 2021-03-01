@@ -1,5 +1,5 @@
 # Alley Cats and Boxes
-A free textbook on modal logic and relational category theory.
+A free textbook on allegories, category theory, and modal logic.
 
 ## Instructions
 ### Document
@@ -14,10 +14,10 @@ new `.`'s should be continually printed - if the printing halts for more than a 
 
 ## Tentative List of Topics
 - Expressions, Sets, Functions, and Relations
+- Functions versus Relations
 - Partially-Ordered Sets
 - Comparing and Composing Relations
 - Transposition and Inverse
-- Functions versus Relations
 - Equivalence Relations and Quotients
 - Kripke Semantics for Basic Modal Logic
 - Bisimulations

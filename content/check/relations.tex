@@ -1,0 +1,28 @@
+\begin{itemize}
+    \item Prove an extensionality principle for relations $R,R':X\to\Bool^Y$: if, for all $x\in X$ and all $y\in Y$,
+        \[ xRy \qiff xR'y \]
+    then $R=R'$.
+
+    \item Consider the functions
+            \begin{align*}
+                \neg &: \Bool \to \Bool\\
+                \land   &: \Bool \to \Bool \to \Bool\\
+                \lor   &: \Bool \to \Bool \to \Bool
+            \end{align*}
+            defined by
+            \begin{align*}
+                \neg\True &= \False\\
+                \neg\False &= \True\\
+                \True\land\True &= \True\\
+                \False\land b &= \False\\
+                b\land\False &= \False\\
+                \False\lor\False &= \False\\
+                b\lor\True &=\True\\
+                \True\lor b &= \True.
+            \end{align*}
+        Given subsets $A,B\sub X$ (i.e. $\chi_A,\chi_B:X\to\Bool$), write functions $X\to\Bool$ corresponding to the subsets $X\setminus A$, $A\cap B$, and $A\cup B$ where, for $x\in X$,
+        \[ x\in X\setminus A \qiff x\not\in A \]
+        \[ x\in A\cap B \qiff x\in A\text{ and }x\in B \]
+        \[ x\in A\cup B \qiff x\in A\text{ or }x\in B \]
+        where the ``or'' is inclusive or (i.e. $x\in A\cup B$ if $x\in A$ \textit{and} $x\in B$).
+\end{itemize}

@@ -18,6 +18,7 @@
 \usepackage{chngcntr}
 \usepackage{titlesec}
 \usepackage{xcolor}
+\usepackage{bbm}
 
 % Ref styling
 \usepackage{hyperref}
@@ -55,9 +56,11 @@
 
 \newtheorem{definition}{Definition}[section]
 \newtheorem{conjecture}{Conjecture}
+\newtheorem{claim}{Claim}
 \newtheorem{corollary}{Corollary}[theorem]
 \newtheorem{note}{Note}[section]
 \newtheorem{example}{Example}[section]
+\newtheorem{checkyour}{Check Your Understanding}[section]
 
 \newtheorem*{titleless}{}
 
@@ -87,6 +90,8 @@
     \providecommand*{\definitionautorefname}{Defn.}
     \providecommand*{\noteautorefname}{Note}
     \providecommand*{\exampleautorefname}{Example}
+    \providecommand*{\checkyourautorefname}{Check Your Understanding}
+    \providecommand*{\claimautorefname}{Claim}
 
 % Streamline the declaration and cross-linking of theorems in the main body and proofs in appendix
 
@@ -154,6 +159,16 @@
             \label{exm:#2}%
         \input{examples/#2}%
             \end{example}%
+    }
+    \renewcommand{\Check}[2][]{%
+            \ifx\\#1\\%
+                \begin{checkyour}%
+            \else%
+                \begin{checkyour}[#1]%
+            \fi%
+            \label{check:#2}%
+        \input{check/#2}%
+            \end{checkyour}%
     }
     \newcommand{\prove}[2][proposition]{%
         \state[#1]{#2}%

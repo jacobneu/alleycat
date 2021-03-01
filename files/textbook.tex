@@ -2,7 +2,10 @@
 
 % DOCUMENT CLASS AND PACKAGE USE
     \documentclass[11pt]{book}
-    %\usepackage{paper}
+    \usepackage{paper}
+    \usepackage{macros}
+
+    \definecolor{auxColor}{HTML}{a00000}
 
     \author{Jacob Neumann}
     \title{Alley Cats and Boxes}
@@ -23,15 +26,19 @@
 
 \section{Expressions, Sets, Functions, and Relations}
 
+    \input{written/basics}
+
+\section{Functions versus Relations}
+
 \section{Partially-Ordered Sets}
 
 \section{Comparing and Composing Relations}
 
 \section{Transposition and Inverse}
 
-\section{Functions versus Relations}
-
 \section{Equivalence Relations and Quotients}
+
+\section{Images and Kernels}
 
 
 \chapter{Modal Logic}
@@ -62,6 +69,8 @@
 
 \addcontentsline{toc}{section}{Review: Category Theory}
 \section*{Review: Category Theory}
+
+\section{Motivation}
 
 \section{Modular Lattices}
 

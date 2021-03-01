@@ -1,0 +1,6 @@
+We'll use set extensionality: $A$ and $\compSet{x\in X}{\chi_A(x)}$ are the same set if, for any $z$,
+    \[ z\in A \qiff z\in\compSet{x\in X}{\chi_A(x)}. \]
+Suppose $z\in A$. Then, by definition, $\chi_A(z)=\True$. But then, by definition of set comprehension,
+    \[ z\in\compSet{x\in X}{\chi_A(x)} \]
+so we've proved one direction. To prove the other, suppose $z\in\compSet{x\in X}{\chi_A(x)}$. But this just means that $\chi_A(z)=\True$. But $\chi_A(z)=\True$ only if $z\in A$, and we're done.
+

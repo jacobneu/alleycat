@@ -22,6 +22,8 @@
 \newcommand{\Unit}{\mathbf{1}}
 
 \newcommand{\partialTo}{\rightharpoonup}
+\newcommand{\rel}{\mathrel{\ooalign{$\rightarrow$\cr
+  \hidewidth\raise.3ex\hbox{{\tiny $\vert\mkern13mu$}}\cr}}}
 
 \usepackage{stmaryrd}
 \newcommand{\lval}[1]{\llbracket #1 \rrbracket}
@@ -31,6 +33,8 @@
 \newcommand{\iden}[1][]{\textsf{id}_{#1}}
 \newcommand{\comp}{\textsf{comp}}
 \newcommand{\Bool}{\mathbbm 2}
+\newcommand{\True}{\textsf{true}}
+\newcommand{\False}{\textsf{false}}
 \newcommand{\proj}[1][]{\textsf{pr}_{#1}}
 \newcommand{\dom}{\textsf{dom}}
 \renewcommand{\hom}[1][]{\textsf{hom}\ifx\\#1\\\else_{#1}\fi}
