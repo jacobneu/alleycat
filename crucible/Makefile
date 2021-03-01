@@ -7,7 +7,7 @@ BIB?=
 PAUSE?=
 SUFFIX?=
 
-export TEXINPUTS:=../../tex//:../src//:${TEXINPUTS}
+export TEXINPUTS:=../src//:${TEXINPUTS}
 pdf: guard-SRC guard-PREFIX
 	@ if [ "$(VERB_CMD)" != "" ]; \
 	  then \
