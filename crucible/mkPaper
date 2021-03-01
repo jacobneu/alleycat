@@ -1,0 +1,26 @@
+#!/bin/bash
+
+V=""
+B=""
+SUFFIX=""
+while getopts "vb" opt; do
+  case "$opt" in
+     (v) V="true" ;;
+     (b) B="true" ;;
+     (d) SUFFIX="-$(date '+%Y%m%d')";;
+  esac
+done
+shift $((OPTIND - 1))
+
+
+if [ "$V" = "" ]; then
+    make pdf "PREFIX=$1" VERB_CMD=' | ./.mkDots' "BIB=$B" "SUFFIX=${SUFFIX}" ;
+else
+    make pdf "PREFIX=$1" VERB_CMD='' "BIB=$B" "SUFFIX=${SUFFIX}";
+fi
+#if [ $VERB ];
+#then
+#  make pdf "PREFIX="$1 "VERBOSE=true";
+#else
+#  make pdf "PREFIX="$1;
+#fi

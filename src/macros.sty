@@ -1,0 +1,58 @@
+% Display stuff & keyword shortcuts
+\newcommand{\keyword}[1]{{\color{keywordColor}\textbf{#1}}}
+\newcommand{\mc}[1]{\mathcal{#1}}
+\newcommand{\mr}[1]{\mathrm{#1}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\Powset}[1]{\mathcal{P}\left(#1\right)}
+\newcommand{\pair}[1]{\left\langle #1\right\rangle}
+\newcommand{\compSet}[2]{\left\{ #1\;\mid\; #2\right\}}
+\newcommand{\paren}[1]{\left(#1\right)}
+\newcommand{\qiq}{\quad\quad\implies\quad\quad}
+\newcommand{\qiff}{\quad\quad\iff\quad\quad}
+\newcommand{\sub}{\subseteq}
+
+\newcommand{\isType}{\textsf{ type}}
+
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Unit}{\mathbf{1}}
+
+\newcommand{\partialTo}{\rightharpoonup}
+
+\usepackage{stmaryrd}
+\newcommand{\lval}[1]{\llbracket #1 \rrbracket}
+
+\newcommand{\inter}{\textsf{int}}
+\newcommand{\ind}[1][]{\textsf{ind}_{#1}}
+\newcommand{\iden}[1][]{\textsf{id}_{#1}}
+\newcommand{\comp}{\textsf{comp}}
+\newcommand{\Bool}{\mathbbm 2}
+\newcommand{\proj}[1][]{\textsf{pr}_{#1}}
+\newcommand{\dom}{\textsf{dom}}
+\renewcommand{\hom}[1][]{\textsf{hom}_{#1}}
+\newcommand{\cod}{\textsf{cod}}
+\newcommand{\ev}{\textsf{ev}}
+\newcommand{\inl}{\textsf{inl}}
+\newcommand{\inr}{\textsf{inr}}
+\newcommand{\fib}{\textsf{fib}}
+\newcommand{\imag}{\textsf{im}}
+\newcommand{\op}[1]{{#1}^{\textsf{op}}}
+\newcommand{\SET}{\textbf{Set}}
+\newcommand{\REL}[1][auxColor]{{\color{#1}\textbf{Rel}}}
+\newcommand{\POS}{\textbf{Pos}}
+\newcommand{\TOP}[1][auxColor]{{\color{#1}\textbf{Top}}}
+\newcommand{\TOPREL}[1][auxColor]{{\color{#1}\textbf{TopRel}}}
+\newcommand{\DYNREL}[2][auxColor]{{\color{#1}%
+    \ifx\\#2\\\else{#2}\text{-}\fi\textbf{DynRel}%
+    }}
+\newcommand{\BACK}[2][auxColor]{{\color{#1}%
+    \ifx\\#2\\\else{#2}\text{-}\fi\textbf{Back}%
+    }}
+\newcommand{\FORTH}[2][auxColor]{{\color{#1}%
+    \ifx\\#2\\\else{#2}\text{-}\fi\textbf{Forth}%
+    }}
+\newcommand{\BASE}{{\color{auxColor}\textbf{Base}}}
+\newcommand{\ITE}[3]{\textsf{if } #1 \textsf{ then } #2 \textsf{ else } #3}

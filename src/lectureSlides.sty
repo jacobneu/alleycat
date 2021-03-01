@@ -1,0 +1,329 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{lectureSlides}[2020/12/15 ECHT Video Project Lecture Slide Styling]
+
+%\usepackage{beamerthemesplit}
+%\usepackage[scale=7]{beamerposter} 
+
+% Make main commands
+    \newcommand{\presentNUM}{\PREFIX}
+    \title{\TITLE}
+    \subtitle{\SUBTITLE}
+    \date{\DATE}
+    \author{\AUTHOR}
+    \newcommand{\mainTitle}{\TITLE}
+    \newcommand{\presentTitle}{\mainTitle}
+    \providecommand{\SUBSUBTITLE}{}
+    
+% Set graphics path
+    \graphicspath{ {../img/} }
+
+% Color setup
+    % Supply default colors
+    \providecommand{\presentColor}{0C6E2B} % DEFAULT: green
+    \providecommand{\auxColor}{654321} % DEFAULT: brown
+    \providecommand{\bgColor}{ffffff} % DEFAULT: white
+    \providecommand{\darkBg}{bbbbbb} % DEFAULT: gray
+    \providecommand{\fontColor}{ffffff} % DEFAULT: white
+    \providecommand{\titleNumColor}{\darkBg}
+    \providecommand{\firstpageTop}{\presentColor}
+    \providecommand{\firstpageBottom}{\bgColor}
+    \providecommand{\firstpageText}{ffffff}
+
+    % Set the colors
+    \definecolor{presentColor}{HTML}{\presentColor}
+    \definecolor{auxColor}{HTML}{\auxColor}
+    \definecolor{bgColor}{HTML}{\bgColor}
+    \definecolor{darkBg}{HTML}{\darkBg}
+    \definecolor{fontColor}{HTML}{\fontColor}
+    \definecolor{titleNumColor}{HTML}{\titleNumColor}
+    \definecolor{firstpageTop}{HTML}{\firstpageTop}
+    \definecolor{firstpageBottom}{HTML}{\firstpageBottom}
+    \definecolor{firstpageText}{HTML}{\firstpageText}
+    
+    \providecommand{\keywordColor}{\auxColor} % DEFAULT: auxColor
+    \definecolor{keywordColor}{HTML}{\keywordColor}
+
+% Packages
+    \usepackage{tikz-cd}
+    \usetikzlibrary{decorations.pathmorphing}
+    \usepackage{bbm}
+
+% Macros
+    \usepackage{macros}
+
+% Theme setup
+    \usetheme{Madrid}
+    \useinnertheme{rectangles}
+    
+    % presentColor is the beamer theme color, bgColor is the background color
+    \setbeamercolor{background canvas}{bg=bgColor}
+    \setbeamercolor{normal text}{fg=fontColor}
+    \usecolortheme[named=presentColor]{structure}
+
+    \setbeamertemplate{itemize item}{\color{darkBg}$\bullet$}
+    \setbeamertemplate{itemize subitem}{\color{darkBg}$\blacktriangleright$}
+
+    \setbeamercolor{local structure}{fg=darkBg}
+
+
+% Title page setup   
+    % Define HUGE
+    \makeatletter
+        \newcommand\HUGE{\@setfontsize\Huge{38}{47}}
+    \makeatother
+
+    % Load tikz packages
+    \usepackage{tikz}
+    \usepackage{pdfrender}
+    \usetikzlibrary{shapes,arrows}
+    \setbeamerfont{stuff}{size=\normalsize\itshape}
+    \setbeamerfont{title}{size=\Huge}
+    \setbeamerfont{subtitle}{size=\Large\normalfont\slshape}
+    \setbeamerfont{sectionTitle}{size=\Huge}
+
+    \newcommand{\mkTitle}{%
+    \begin{tikzpicture}[remember picture,overlay]
+
+        % Main color rectangle
+        \fill[firstpageTop] ([yshift=40pt,xshift=-40pt]current page.north west) -- ([yshift=-40pt,xshift=-40pt]current page.south west) -- 
+            ([yshift=-40pt,xshift=130pt]current page.south west) -- ([yshift=40pt,xshift=-70pt]current page.north east) --
+            ([yshift=40pt,xshift=-40pt]current page.north west);
+
+        \draw[auxColor,line width=6pt] 
+            ([yshift=-40pt,xshift=130pt]current page.south west) -- ([yshift=40pt,xshift=-70pt]current page.north east);
+ 
+        % Title
+        \node[anchor=north west]
+            at ([yshift=-15pt,xshift=15pt]current page.north west) (title)
+            {\parbox[t]{\textwidth}{%
+            \usebeamerfont{title}\textcolor{firstpageText}{%
+                \textpdfrender{
+                    TextRenderingMode=FillStroke,%
+                    FillColor=firstpageText,%
+                    LineWidth=.1ex,%
+                }
+            {\mainTitle}}}};%
+         
+        % Subtitle
+        \node[anchor=north west]%
+            at ([yshift=-50pt,xshift=15pt]current page.north west) (subtitle)%
+            {\parbox[t]{.6\paperwidth}{\usebeamerfont{subtitle}\textcolor{firstpageText}{\insertsubtitle}}};%
+        
+        % Author/Date/Occasion
+        \node[anchor=north west] %
+            at ([yshift=-100pt,xshift=15pt]current page.north west) (subtitle)%
+            {\parbox[t]{.6\paperwidth}{\usebeamerfont{subtitle}\textcolor{darkBg}{%
+                \SUBSUBTITLE\\%
+                \AUTHOR\\%
+                \DATE%
+            }}};%
+    \end{tikzpicture}%
+        \setcounter{framenumber}{0}
+    }
+
+% Section page setup
+    \setbeamertemplate{section page}
+    {{%
+    \begin{center}
+    \begin{tikzpicture}[remember picture,overlay]
+        % Title
+        \node[anchor=center]
+            at (current page.center) (title)
+            {\parbox[t]{\textwidth}{\centering%
+            \usebeamerfont{sectionTitle}\textcolor{bgColor}{%
+                \textpdfrender{
+                    TextRenderingMode=FillStroke,%
+                    FillColor=bgColor,%
+                    LineWidth=.1ex,%
+                }
+            {{\color{titleNumColor}\presentNUM}\ \presentTitle}}}};%
+    \end{tikzpicture}
+    \end{center}
+    }}
+
+% Command to start section with section page
+    % includeSubtitle controls whether the section title appears in the footline of regular slides
+    % It is set to false initially, because there is no section title to begin. Then, after the first section page, it is set to true (unless toggled directly in the slides tex)
+    \newif\ifincludeSubtitle
+    \includeSubtitlefalse
+
+    % Argument 1 is section number, Argument 2 is section title
+    \newcommand{\initSection}[2]{%
+        \section{#2}%
+        \renewcommand{\presentNUM}{#1}%
+        \renewcommand{\presentTitle}{#2}%
+        {%
+            \setbeamercolor{background canvas}{bg=presentColor}%
+            \frame[plain]{\sectionpage}%
+        }%
+        \includeSubtitletrue%
+        \addtocounter{framenumber}{-1}
+    }
+
+% Footline setup
+    \makeatother
+    \setbeamertemplate{footline}
+    {
+        \leavevmode%
+        
+        \hbox{%
+        \begin{beamercolorbox}[sep=1.5ex,wd=.08\paperwidth,ht=8ex,dp=1ex,center]{author in head/foot}%
+            \hfill{\Large \insertframenumber{}}\hfill\hfill
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[sep=1ex,wd=.32\paperwidth,ht=5ex,dp=1ex,left]{title in head/foot}%
+            \usebeamerfont{title in head/foot}\hspace*{1em}\mainTitle
+        \end{beamercolorbox}%
+        %
+        \ifincludeSubtitle
+        \begin{beamercolorbox}[sep=1ex,wd=.37\paperwidth,ht=5ex,dp=1ex,left]{date in head/foot}%
+            \usebeamerfont{title in head/foot}\hspace*{1em}\presentTitle
+        \end{beamercolorbox}
+        \else %
+            \hspace{.37\paperwidth}%
+        \fi %
+        %\hspace{-1.6ex}
+        %\begin{beamercolorbox}[wd=.1\paperwidth,ht=5ex,dp=1ex]{title in head/foot}%
+        %    \hfill{\vspace{1ex}\PREFIX}\hfill\hfill
+        %\end{beamercolorbox}%
+        %\begin{beamercolorbox}[wd=.13\paperwidth,ht=5ex,dp=1ex]{author in head/foot}%
+        %    \hfill{\vspace{1ex}\SERIES}\hfill\hfill
+        %\end{beamercolorbox}}%
+        }
+        %\vskip0pt%
+    }
+    \makeatletter
+
+% Hide navigation symbols
+    \setbeamertemplate{navigation symbols}{}
+
+
+
+% Graphics import
+    \usepackage{import}
+    \usepackage{graphicx}
+    \newcommand{\fig}[2][]{%
+        \begin{figure}[ht]%
+            \centering%
+            \def\svgwidth{\textwidth}%
+            \import{../img/}{#2.pdf_tex}%
+            \ifx\\#1\\\else\caption{#1}\fi%
+            \label{fig:#2}%
+        \end{figure}%
+    }
+    \newcommand{\figsmall}[3][]{%
+        \begin{figure}[ht]%
+            \centering%
+            \def\svgwidth{#3}%
+            \import{../img/}{#2.pdf_tex}%
+            \ifx\\#1\\\else\caption{#1}\fi%
+            \label{fig:#2}%
+        \end{figure}%
+    }
+    \newcommand{\figCap}[3][]{%
+        \begin{figure}[ht]%
+            \centering%
+            \def\svgwidth{\columnwidth}%
+            \import{../img/}{#2.pdf_tex}%
+            \ifx\\#1\\\else\caption{#1}\fi%
+            {\small #3}%
+            \label{fig:#2}%
+        \end{figure}%
+    }
+
+% codeline
+\makeatletter
+\newcount\my@repeat@count
+\newcommand{\myrepeat}[2]{%
+  \begingroup
+  \my@repeat@count=\z@
+  \@whilenum\my@repeat@count<#1\do{#2\advance\my@repeat@count\@ne}%
+  \endgroup
+}
+\makeatother
+
+\newcommand<>{\codeline}[3][]{\only#4{\noindent\texttt{#1}\myrepeat{#2}{\ \ \ }\texttt{#3\\}}}
+\newcommand<>{\mathline}[3][]{\only#4{\noindent{#1}\myrepeat{#2}{\texttt{\ \ \ \ \ }}{#3}\\}}
+
+% Boxes
+\newrobustcmd{\genBox}[2][white]{
+    \noindent\colorbox{auxColor}{%
+        {\color{#1} #2}%
+    }%
+}
+
+\newenvironment{checkFrame}[1][black]
+    {
+    \setbeamercolor{background canvas}{bg=white}
+    \setbeamercolor{normal text}{fg=black}
+    \usebeamercolor[fg]{normal text}
+ 
+    \begin{frame}
+        \genBox[#1]{Check Your Understanding}
+        
+        \vspace{0.5cm}
+        
+    }
+    {
+    \end{frame}
+    }
+\newenvironment{paperFrame}[1]
+    {
+    \setbeamercolor{background canvas}{bg=white}
+    \setbeamercolor{normal text}{fg=black}
+    \usebeamercolor[fg]{normal text}
+ 
+    \begin{frame}
+        \ifx\\#1\\\else \frametitle{#1}\fi
+        
+    }
+    {
+        
+    \end{frame}
+    }
+
+
+% Check Box
+    \usepackage{mdframed}
+
+
+\mdfdefinestyle{checkBoxMD}{%
+    linecolor=black,
+    outerlinewidth=2pt,
+    %roundcorner=20pt,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=4pt,
+    innerleftmargin=4pt,
+        leftmargin = 4pt,
+        rightmargin = 4pt,
+    backgroundcolor=white}
+        
+\newenvironment{checkBox}[1][black]
+    {\color{black}
+    \setbeamercolor{normal text}{fg=black}
+    \usebeamercolor[fg]{normal text}
+        \vspace{0.25cm}
+
+        \begin{mdframed}[style=checkBoxMD,nobreak=true]
+
+        \noindent\colorbox{auxColor}{%
+            {\color{#1} Check Your Understanding}%
+        }%
+        \vspace{0.25cm}
+    }
+    {
+        \end{mdframed}
+    }
+
+\newenvironment{sandBox}[1][black]
+    {\color{black}
+    \setbeamercolor{normal text}{fg=black}
+    \usebeamercolor[fg]{normal text}
+        \vspace{0.25cm}
+
+        \begin{mdframed}[style=checkBoxMD,nobreak=true]
+        
+    }
+    {
+        \end{mdframed}
+    }

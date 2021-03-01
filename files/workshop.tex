@@ -1,0 +1,463 @@
+{\Large
+
+    \begin{frame}
+        \frametitle{Outline}
+        \begin{itemize}
+            \item Section 0: Allegories\pause
+            \item Section 1: Back-and-Forth \pause
+            \item Section 2: Modal Logic (time-permitting)
+        \end{itemize}
+    \end{frame}
+
+    % TODO References
+    \begin{frame}
+        \frametitle{Some sources}
+    %    Allegories:
+        \begin{itemize}
+            \item \textit{Categories, Allegories} (Freyd-Scedrov)\pause %standard text on allegories. Lots of material, notation is a bit difficult\pause
+            \item \textit{Sketches of an Elephant} (Johnstone) \pause
+            \item \href{https://ncatlab.org/nlab/show/allegory}{https://ncatlab.org/nlab/show/allegory}\pause %, but you have to chase some definitions down\pause
+            \item Wikipedia has a good article: \href{https://en.wikipedia.org/wiki/Allegory_(mathematics)}{https://en.wikipedia.org/wiki/Allegory\_(mathematics)}
+        \end{itemize}
+
+    %    Modal Logic and Bisimulations:
+    %    \begin{itemize}
+    %        \item A 
+    %    \end{itemize}
+
+    \end{frame}
+
+\initSection{0}{Background: the Allegory of Relations}
+
+    \begin{frame}
+        \frametitle{$\REL[bgColor]$}
+        $\REL$ is a standard example of a category:
+
+        \genBox{Defn.} $\REL$ is the category whose
+            \begin{itemize}\pause
+                \item objects are sets\pause
+                \item morphisms are binary relations:
+                    \[ \hom[\REL](A,B) = \compSet{R}{R\sub A\times B} = \Powset{A\times B} \]\pause
+                \item \vspace{-1cm}composition operation is given by
+                    \[ S\circ R = \compSet{(a,c)\in A\times C}{\exists b\in B\ (a,b)\in R\ \&\ (b,c)\in S} \]
+                    for $R\in\hom[\REL](A,B), S\in\hom[\REL](B,C)$.
+            \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{$\SET$ versus $\REL[bgColor]$}
+              % Rel, of course has its better-known cousin, Set
+        It is customary to regard $\SET$ as a subcategory of $\REL$: \pause the inclusion functor takes a function $f:A\to B$ to its \textit{graph} $\compSet{(a,f(a))}{a\in A} \sub A\times B$, \pause which we'll also call $f$:
+            \[ f \in \hom[\REL](A,B) \]\pause
+        $\SET$
+        {\normalsize \begin{itemize}
+            \item has all small limits and colimits
+            \item has exponentials and a subobject classifier
+            \item has cartesian closed slice categories
+            \item \ldots
+        \end{itemize}\pause}
+        $\REL$
+        {\normalsize \begin{itemize}
+            \item doesn't (for the most part)
+        \end{itemize}}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{$\POS$-enrichment}
+        Notice:
+            \[ \hom[\REL](A,B) = \Powset{A\times B} \]\pause
+
+        \begin{itemize}
+            \item $\sub$ is a partial order on $\hom[\REL](A,B)$:\pause
+                {\normalsize \begin{itemize}
+                    \item For all $R\in\hom[\REL](A,B)$, $R\sub R$
+                    \item For all $R,R',R''\in\hom[\REL](A,B)$, if $R\sub R'$ and $R'\sub R''$, then $R\sub R''$
+                    \item If $R\sub R'$ and $R'\sub R$, then $R=R'$
+                \end{itemize}}\pause
+            \item $\sub$ is compatible with composition: \pause for $R:A\to B$, $S,S':B\to C$ and $T:C\to D$ in $\REL$,
+                \begin{align*}
+                    S\sub S' &\qiq (S\circ R)\sub (S'\circ R)\\
+                    S\sub S' &\qiq (T\circ S)\sub (T\circ S')
+                \end{align*}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{$\POS$-valued representables}
+        The previous slide can be summarized as asserting that the following are functors for any set $C$:\pause
+        {\large \begin{alignat*}{2}
+            \hom[\REL](-,C) &: \op{\REL} \to \POS\\
+                            &: A           &&\mapsto (\hom[\REL](A,C),\sub)\\
+                            &: R\sub A\times B &&\mapsto (-\circ R):(\hom[\REL](B,C),\sub)\to (\hom[\REL](A,C),\sub)\\
+            \hom[\REL](C,-) &: \REL \to \POS\\
+                            &: D           &&\mapsto (\hom[\REL](C,D),\sub)\\
+                            &: U\sub D\times E &&\mapsto (U\circ -):(\hom[\REL](C,D),\sub)\to (\hom[\REL](C,E),\sub)\\
+        \end{alignat*}}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{We have the meets}\pause
+        Given $R,R'\in\hom[\REL](A,B)$,
+            \[ R\cap R'\in \hom[\REL](A,B) \]\pause
+        This satisfies some nice properties, e.g.
+        {\large
+            \begin{itemize}
+                \item $S\circ (R\cap R') \sub (S\circ R)\cap (S\circ R')$
+                \item $(S\cap S')\circ R \sub (S\circ R)\cap (S'\circ R)$\pause
+                \item $R\cap R = R$, \quad $R\cap R'=R'\cap R$, \quad $R\cap(R'\cap R'')=(R\cap R')\cap R''$
+            \end{itemize}
+        }\pause
+
+        Also: nullary intersections ($A\times B\in\hom[\REL](A,B)$), infinitary intersections, binary and infinitary unions, nullary unions (the empty relation), etc. 
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Dagger Categories}
+        \pause
+        For any $R\in\hom[\REL](A,B)$,
+            \[ R^{\dagger} := \compSet{(b,a)}{(a,b)\in R} \in \hom[\REL](B,A) \]\pause
+
+        \genBox{Defn.} A \keyword{dagger category} $\C$ is a category equipped with a contravariant endofunctor ${\dagger}:\op{\C}\to\C$ 
+        %\only<4>{(i.e. $\iden[A]^{\dagger}=\iden[A]$ and $(S\circ R)^{\dagger}=R^\dagger\circ S^\dagger$)} \pause
+        \pause such that
+        \begin{itemize}
+            \item $\dagger$ is the identity on objects\pause
+            \item $\dagger$ is an \keyword{involution}: $\dagger\circ\dagger = \iden[\C]$
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{This structure doesn't exist (or is trivial) for $\SET$}
+        For any functions $f,f':A\to B$,
+        \begin{itemize}\pause
+            \item $f\sub f'$ if and only if $f=f'$\pause
+            \item $f\cap f'$ is only a function if $f=f'$ (in which case $f\cap f'=f=f'$)\pause
+            \item $f^\dagger$ is only a function if $f$ is a bijection 
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Allegories}\pause
+        {\large
+        \genBox{Defn.} An \keyword{allegory} $\C$ is a category equipped with\pause
+        \begin{itemize}
+            \item A poset structure $\leq$ on each hom-set \pause which is compatible with composition
+                \only<4>{(i.e. the function $( - \circ - ):\hom[\C](B,C)\times\hom[\C](A,B)\to \hom[\C](A,C)$ is monotone)}\pause\pause
+                \pause and has binary meets
+                \only<7>{(for any $R,R'\in\hom[\C](A,B)$, $R\land R'$ is the greatest lower bound of $R$ and $R'$)}\pause\pause
+                \pause
+            \item An involution $\dagger:\op{\C}\to\C$
+        \end{itemize}\pause
+        such that
+        \begin{itemize}
+            \item Involution distributes over meets: $(R\land R')^{\dagger} = R^{\dagger}\land R'^{\dagger}$\pause
+            \item Composition semi-distributes over meets:
+                \begin{align*}
+                    S\circ (R\land R') &\leq (S\circ R)\land (S\circ R')\\
+                    (S\land S')\circ R &\leq (S\circ R)\land (S'\circ R)
+                \end{align*}\pause
+            \item \vspace{-0.6cm}The \keyword{modular law} is satisfied:
+                \[ (S\circ R)\land T \leq (S\land (T\circ R^{\dagger}))\circ R \]
+        \end{itemize}
+        }
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{$\REL[bgColor]$ is an allegory}
+        {\large
+        For any $R\sub A\times B$, $S\sub B\times C$ and $T\sub A\times C$:
+        \begin{align*}
+            (a,c)\in (S\circ R)\cap T
+            &\iff (a,c)\in S\circ R \text{ and }(a,c)\in T\\
+            &\iff \exists b\in B\ {\color{red}(a,b)\in R}\text{ and }{\color{green}(b,c)\in S}\text{ and }{\color{cyan}(a,c)\in T}\\
+        \end{align*}\pause
+        \begin{align*}
+            {\color{red}(a,b)\in R}\text{ and }{\color{cyan}(a,c)\in T}
+            &\iff (b,a)\in R^{\dagger}\text{ and }(a,c)\in T\\
+            &\implies {\color{magenta}(b,c)\in T\circ R^{\dagger}}
+        \end{align*}\pause
+        \begin{align*}
+            &{\color{green}(b,c)\in S}\text{ and }{\color{magenta}(b,c)\in T\circ R^{\dagger}}\text{ and }(a,b)\in R\\
+            &\iff (b,c)\in S\cap(T\circ R^{\dagger})\text{ and }(a,b)\in R\\
+            &\implies (a,c)\in (S\cap(T\circ R^{\dagger}))\circ R
+        \end{align*}
+        
+        }
+    \end{frame}
+
+    %\begin{frame}
+    %    \frametitle{What do a mugger and an allegory theorist have in common?}
+    %    \begin{center}\pause
+    %        {\Huge Enrichment with daggers}
+    %    \end{center}
+    %\end{frame}
+
+    \begin{frame}
+        \frametitle{Simple and Entire morphisms}
+        Note: if $R\in\hom[\C](A,B)$ for some allegory $\C$,
+            \[ R\circ R^{\dagger}\in \hom[\C](B,B) \quad\quad\text{and}\quad\quad R^{\dagger}\circ R\in\hom[\C](A,A) \]\pause
+        \genBox{Defn.} A morphism $R:A\to B$ in some allegory is said to be\pause
+        \begin{itemize}
+            \item \keyword{simple} if $R\circ R^{\dagger} \leq \iden[B]$,\pause
+            \item \keyword{cosimple} if $R^{\dagger}\circ R \leq \iden[A]$,\pause
+            \item \keyword{entire} if $\iden[A]\leq R^{\dagger}\circ R$, \pause and
+            \item \keyword{coentire} if $\iden[B]\leq R\circ R^{\dagger}$.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{The (co)simple and (co)entire morphisms of $\REL[bgColor]$}
+        \genBox{Prop.} A relation $R\in\hom[\REL](A,B)$ is\pause
+        \begin{itemize}
+            \item simple iff it is a partial function: $(a,b)\in R$ and $(a,b')\in R$ implies $b=b'$\pause
+            \item cosimple iff it is injective: $(a,b)\in R$ and $(a',b)\in R$ implies $a=a'$\pause
+            \item entire iff it is entire (or \textit{total}): for all $a\in A$, there exists $b\in B$ such that $(a,b)\in R$\pause
+            \item coentire iff it is surjective: for all $b\in B$, there exists $a\in A$ such that $(a,b)\in R$
+        \end{itemize}\pause
+        \genBox{Note} $\SET$ is the subcategory of simple, entire relations
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Some general results (for an arbitrary allegory)}\pause
+        \genBox{Prop.} All isomorphisms are simple, cosimple, entire, and coentire\pause
+
+        \genBox{Prop.} The class of simple morphisms, the class of cosimple morphisms, the class of entire morphisms, and the class of coentire morphisms are closed under composition\pause
+
+        \genBox{Prop.} The class of (co)simple morphisms is downward closed:
+            \[ R\leq R'\text{ and } R'\text{ is (co)simple} \qiq R\text{ is (co)simple} \]\pause%
+        \hspace{-0.17cm}\genBox{Prop.} The class of (co)entire morphisms is upward closed:
+            \[ R\leq R'\text{ and } R\text{ is (co)entire} \qiq R'\text{ is (co)entire} \]\pause%
+        \hspace{-0.17cm}\genBox{Prop.} $R$ is entire iff $R^{\dagger}$ is coentire (and similarly for (co)simple)
+    \end{frame}
+
+    \begin{frame}[fragile]
+        \frametitle{The allegory of internal relations of a regular category}
+
+        We can ``internalize'' the notion of a relation: \pause given a category $\C$ with binary products, a subobject
+        \[ \begin{tikzcd}[column sep=huge] R \arrow[rightarrowtail]{r}{} & A\times B \end{tikzcd}\]
+        is an \keyword{internal binary relation} between $A$ and $B$.\pause
+
+        \vspace{0.5cm}
+
+        We can form the category $\REL(\C)$ with the same objects as $\C$, and whose morphisms $A\to B$ are internal binary relations between $A$ and $B$.\pause
+
+        \genBox{Thm.} If $\C$ is a \keyword{regular} category, then $\REL(\C)$ is an allegory\\ \pause
+        \genBox{Prop.} $\SET$ is a regular category, and $\REL=\REL(\SET)$
+    \end{frame}
+
+\initSection{1}{Allegories with Back-and-Forth Classes}
+
+    \begin{frame}
+        \frametitle{$\TOP[bgColor]$}
+        {\large
+        \genBox{Defn.} A \keyword{topology} on a set $X$ is a collection $\tau\sub\Powset{X}$ (the elements of $\tau$ are called \keyword{open subsets} of $X$) \pause such that
+         \begin{itemize}
+            \item $\emptyset, X\in \tau$
+            \item If $U,U'\in\tau$, then $U\cap U'\in \tau$
+            \item If $I$ is a set and $U_i\in\tau$ for each $i\in I$,
+                \[ \paren{\bigcup_{i\in I}U_i}\in \tau. \]
+        \end{itemize}
+        \pause
+
+        \genBox{Defn.} $\TOP$ is the category whose
+        \begin{itemize}
+            \item objects are topological spaces: pairs $(X,\tau)$ where $\tau$ is a topology on $X$
+            \item morphisms are \keyword{continuous functions}: \pause $f:(X,\tau_X)\to(Y,\tau_Y)$ is continuous if
+                \[ U\in\tau_Y \qiq f^{-1}(U)\in\tau_X \]
+        \end{itemize}
+        }
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Continuous Relations don't give rise to an allegory}
+        We can generalize this to relations:\\ \pause
+        \genBox{Defn.} Given topological spaces $(A,\tau_A)$ and $(B,\tau_B)$ and $R\sub A\times B$, $R$ is said to be \keyword{continuous} if
+            \[ U\in\tau_B \qiq  R^{\only<-2>{-1}\only<3->{\dagger}}(U)\in\tau_A \]\pause
+        {\normalsize where $R^{\dagger}(U)=\compSet{a\in A}{(u,a)\in R^{\dagger}\text{ for some }u\in U}$.}\pause
+
+        \vspace{1cm}
+
+        \textbf{Problem:} $R$ continuous does not imply $R^{\dagger}$ continuous, so the category of continuous relations (which \textit{is} a category), is \textit{not} an allegory.
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Proposed approach: $\TOPREL[bgColor]$}
+        \genBox{Defn.} $\TOPREL$ is the category whose
+        \begin{itemize}
+            \item objects are topological spaces $(A,\tau_A)$\pause
+            \item morphisms $R:(A,\tau_A)\to (B,\tau_B)$ are binary relations $R\sub A\times B$. \pause {\small (no assumptions on $R$ -- ignore the topologies for now)}
+        \end{itemize}
+
+        \vspace{1cm}
+
+        \genBox{Prop.} $\TOPREL$ is an allegory.\\\pause
+        \indent Proof is identical to the proof that $\REL$ is an allegory
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Back and Forth}
+        \genBox{Defn.} Write $\BACK{}$ for the class of continuous morphisms in $\TOPREL$\\ \pause
+        \genBox{Defn.} Write $\FORTH{}$ for the class of \keyword{open} morphisms in $\TOPREL$: morphisms $R\in\hom[\TOPREL]((A,\tau_A),(B,\tau_B))$ such that
+            \[ U\in\tau_A \qiq R(U)\in\tau_B. \]
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Some basic results}
+        \begin{itemize}
+            \item $R\in\FORTH{}$ if and only if $R^{\dagger}\in\BACK{}$\pause
+            \item Both $\BACK{}$ and $\FORTH{}$ are closed under composition and contain all $\TOP$-isos (homeomorphisms)\pause
+            \item $\TOP$ is the subcategory of continuous, entire, simple $\TOPREL$-morphisms\pause
+            \item Quotient maps $X\to X/\sim$ in $\TOP$ are open and coentire, but are only cosimple if $\sim$ is identity\pause
+            \item A $\TOPREL$-iso (a bijection) is a $\TOP$-iso (a homeomorphism) iff it is in $\FORTH{}$ and $\BACK{}$
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Another example: $\DYNREL[bgColor]{}$}
+        \genBox{Defn.} A \keyword{dynamic set} is a pair $(A,f)$ where $A$ is a set and $f:A\partialTo A$ is a partial function (a simple $\REL$-endomorphism).\\ \pause
+        \genBox{Defn.} $\DYNREL{}$ is the allegory of dynamic sets and binary relations, whose back and forth classes are given by:\pause
+            {\large \begin{itemize}
+                \item $R:(A,f)\to(B,g)$ is in $\FORTH{}$ if
+                    \[ f(a)\text{ is defined and }(a,b)\in R \qiq g(b)\text{ is defined and }(f(a),g(b))\in R \]\pause
+                \item $R:(A,f)\to(B,g)$ is in $\BACK{}$ if
+                    \[ g(b)\text{ is defined and }(a,b)\in R \qiq f(a)\text{ is defined and }(f(a),g(b))\in R \]
+            \end{itemize}}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Parametrized: $\DYNREL[bgColor]{\Sigma}$}
+        \genBox{Defn.} For a set $\Sigma$, a \keyword{$\Sigma$-dynamic set} is a set $A$ equipped with a $\Sigma$-indexed family of partial functions $\set{f_{\sigma}:A\partialTo A}_{\sigma\in\Sigma}$. \pause
+
+        \genBox{Defn.} $\DYNREL{\Sigma}$ is the allegory of $\Sigma$-dynamic sets and binary relations. \pause For each $\sigma\in\Sigma$, there are classes of morphisms, $\FORTH{\sigma}$ and $\BACK{\sigma}$, defined as above.
+
+        \vspace{0.5cm}\pause
+
+        So, for each binary relation $R$, there is some subset $\Pi\sub\Sigma$ of all those $\sigma$ such that $R$ is in $\FORTH{\sigma}$ (or $\BACK{\sigma}$, or both).
+
+    \end{frame}
+
+\initSection{2}{Modal Logics and Bisimulation}
+
+    \begin{frame}
+
+    \end{frame}
+
+
+    \begin{frame}
+        \frametitle{Valuations}
+
+        The model theory of \textit{classical logic} makes use of \keyword{valuations}: functions which ``assign truth values'' to atomic propositions
+            \[ v : \Phi \to \set{0,1} \]\pause
+        
+        \vspace{-0.5cm}
+
+        We can generalize this somewhat:
+            \[ v : \Phi \to \Powset{X} \]\pause
+        $v(p)$ is the \textit{extension} of $p$, or the set of ``states where $p$ is true''.
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Dynamic Modal Logic}
+        We can pair together a dynamic set $(A,f)$ with a valuation $v:\Phi\to\Powset{A}$ to get a \keyword{dynamic model}.\pause
+
+        Dynamic models \textit{interpret} the language $\mc L_{\bigcirc}$:
+        \begin{align*}
+            \varphi,\psi ::= p \mid \neg\varphi \mid \varphi\land\psi \mid \bigcirc\varphi \tag{$p\in\Phi$}
+        \end{align*}\pause
+        We define a function $\lval{-}:\mc L_{\bigcirc}\to\Powset{A}$ recursively by
+        \begin{align*}\pause
+        \lval{p} &= v(p) \tag{$p\in\Phi$}\\
+        \lval{\neg\varphi} &= A\setminus \lval{\varphi} \\
+        \lval{\varphi\land\psi} &= \lval{\varphi}\cap\lval{\psi}\\
+        \lval{\bigcirc\varphi} &= f^{-1}\lval{\varphi}
+        \end{align*}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Bisimulations of Dynamic Models}
+        \genBox{Defn.} A \keyword{bisimulation} between dynamic models $(A,f,v_A)$ and $(B,g,v_B)$ is a binary relation $S\in\hom[\DYNREL{}]((A,f),(B,g))$ in both the $\FORTH{}$ and $\BACK{}$ classes, which also satisfies the $\BASE$ condition: for any $(a,b)\in S$ and $p\in\Phi$,
+            \begin{align*}
+                a\in v_A(p) \qiff b\in v_B(p).
+            \end{align*}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Bisimulation Invariance}
+        \genBox{Thm.} For dynamic models $(A,f,v_A)$ and $(B,g,v_B)$ and a bisimulation $S$ between them,
+            \begin{itemize}
+                \item If $(a,b)\in S$, then for any $\varphi\in\mc L_{\bigcirc}$,
+                        \[ a\in\lval{\varphi}_A \qiff b\in\lval{\varphi}_B \]\pause
+                    \item \vspace{-0.5cm}If $S$ is \textbf{Entire}, then
+                    \[ \lval{\varphi}_B=B \qiq \lval{\varphi}_A=A \]\pause
+                \item \vspace{-0.5cm} If $S$ is \textbf{Coentire}, then
+                    \[ \lval{\varphi}_A=A \qiq \lval{\varphi}_B=B \]
+            \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Multiple dynamics}
+        \begin{align*}
+            \varphi,\psi ::= p \mid \neg\varphi \mid \varphi\land\psi \mid \bigcirc_{\sigma}\varphi \tag{$p\in\Phi$, $\sigma\in\Sigma$}
+        \end{align*}\pause
+
+        \[ \lval{\bigcirc_{\sigma}\varphi} = f_{\sigma}^{-1}\lval{\varphi} \]\pause
+
+        For $\Pi\sub\Sigma$, a $\Pi$-bisimulation between $\Sigma$-dynamic models $(A,\set{f_{\sigma}}_{\sigma\in\Sigma},v_A)$ and $(B,\set{g_{\sigma}}_{\sigma\in\Sigma},v_B)$ is a relation satisfying $\BASE$, and $\FORTH{\pi}$ and $\BACK{\pi}$ for each $\pi\in\Pi$.
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Topological Modal Logic}
+        We can instead use a topological structure to interpret $\Box$. Define $\mc L_{\Box}$ by
+            \begin{align*}
+                \varphi,\psi ::= p \mid \neg\varphi \mid \varphi\land\psi \mid \Box\varphi \tag{$p\in\Phi$}
+            \end{align*}\pause
+
+        A \keyword{topological model} $(A,\tau_A,v)$ interprets $\mc L_{\Box}$:
+        \begin{align*}
+            \lval{p} &= v(p) \tag{$p\in\Phi$}\\
+            \lval{\neg\varphi} &= A\setminus\lval{\varphi}\\
+            \lval{\varphi\land\psi} &= \lval{\varphi}\cap\lval{\psi}\\
+            \lval{\Box\varphi} &= \inter(\lval{\varphi})
+        \end{align*}
+        where $\inter$ denotes topological interior (with respect to $\tau_A$).
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Topo-bisimulations}
+
+        \genBox{Defn.} A \keyword{topo-bisimulation} between topological models $(A,\tau_A,v_A)$ and $(B,\tau_B,v_B)$ is a $\TOPREL$-morphism in $\FORTH{}$ and $\BACK{}$ (open \& continuous) that satisfies $\BASE$.\pause
+
+        \genBox{Thm.} For topological models $(A,\tau_A,v_A)$ and $(B,\tau_B,v_B)$ and a bisimulation $S$ between them,
+            \begin{itemize}
+                \item If $(a,b)\in S$, then for any $\varphi\in\mc L_{\Box}$,
+                    \vspace{-0.3cm}\[ a\in\lval{\varphi}_A \qiff b\in\lval{\varphi}_B \]\pause
+                    \item \vspace{-0.75cm}If $S$ is \textbf{Entire}, then
+                    \[ \lval{\varphi}_B=B \qiq \lval{\varphi}_A=A \]\pause
+                \item \vspace{-0.75cm} If $S$ is \textbf{Coentire}, then
+                    \vspace{-0.3cm}\[ \lval{\varphi}_A=A \qiq \lval{\varphi}_B=B \]
+            \end{itemize}
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Dynamic Topological Modal Logic}
+
+        My research (in particular my master's thesis) explores bisimulations of \keyword{dynamic topological models}, which are models $(A,\tau_A,\set{f_{\sigma}}_{\sigma\in\Sigma},v_A)$ interpreting
+        \[ \varphi,\psi ::= p \mid \neg\varphi \mid \varphi\land\psi \mid \Box\varphi \mid \bigcirc_{\sigma}\varphi \]\pause
+        with the appropriate notion of bisimulation.\pause
+
+        \vspace{1cm}
+
+        This has an interesting philosophical interpretation if we read $\Box\varphi$ as ``$\varphi$ is knowably (or verifiably) true'' and $\bigcirc_{\sigma}\varphi$ as ``after performing (or executing) $\sigma$, $\varphi$ holds''.
+    \end{frame}
+
+%\initSection{3}{Further Questions}
+
+    \begin{frame}[plain]
+        \begin{center}
+        Thank you!
+        \end{center}
+    \end{frame}
+
+}

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+V=""
+B=""
+H=""
+SUFFIX=""
+ while getopts "vbhd" opt; do
+   case "$opt" in
+      (v) V="true" ;;
+      (b) B="true" ;;
+      (h) H=",handout" ;;
+      (d) SUFFIX="-$(date '+%Y%m%d')";;
+   esac
+ done
+ shift $((OPTIND - 1))
+
+
+if [ "$V" = "" ]; then
+    make slides "PREFIX=$1" VERB_CMD=' | ./.mkDots' "BIB=$B" "PAUSE=$H" "SUFFIX=${SUFFIX}" ;
+else
+    make slides "PREFIX=$1" VERB_CMD='' "BIB=$B" "PAUSE=$H" "SUFFIX=${SUFFIX}";
+fi
