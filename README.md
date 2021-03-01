@@ -9,6 +9,7 @@ A free textbook on modal logic and relational category theory.
 Compiling XXXX.pdf..........
 ```
 new `.`'s should be continually printed - if the printing halts for more than a few seconds, this likely indicates an error. The compilation should then be terminated, and rerun with the `-v` flag.
+
 3. If the compilation was successful, check `outbox` for `XXXX.pdf`
 
 ## Tentative List of Topics
