@@ -1,0 +1,249 @@
+% Packages
+\usepackage{amsmath}
+\usepackage[frak=euler]{mathalfa}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{cancel}
+\usepackage{csquotes}
+\usepackage{stmaryrd}
+\usepackage{xr}
+\usepackage{mathrsfs}
+\usepackage{xfrac}
+\usetikzlibrary{arrows}
+\usepackage[amsthm,thmmarks]{ntheorem}
+\usepackage{array}
+\usepackage{import}
+\usepackage{chngcntr}
+\usepackage{titlesec}
+\usepackage{xcolor}
+
+% Ref styling
+\usepackage{hyperref}
+\usepackage{customRef}
+\newcommand{\keyword}[2][]{\ifx\\#1\\\textbf{#2}\else\hyperref[#1]{#2}\fi}
+
+% Header and footer
+\lhead{\fancyplain{}{\@title}}
+\rhead{\fancyplain{}{\thepage}}
+\fancyfoot[C]{}
+
+
+% Theorems, Lemmas, etc.
+\usepackage{aliascnt}
+
+\theoremstyle{break}
+\theoremindent20pt
+\theoremheaderfont{\normalfont\bfseries\hspace{-20pt}}
+\theorembodyfont{\normalfont}
+\theorempostwork{\hrule}
+
+
+\newtheorem*{unlisted}{}
+\newtheorem*{defn}{Definition}
+\newtheorem*{prop}{Proposition}
+\newtheorem*{thm}{Theorem}
+\newtheorem{theorem}{Theorem}[section]
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lemma}
+\aliascntresetthe{lemma}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposition}
+\aliascntresetthe{proposition}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{note}{Note}[section]
+\newtheorem{example}{Example}[section]
+
+\newtheorem*{titleless}{}
+
+\theoremstyle{nonumberbreak}
+\theoremheaderfont{\itshape\hspace{-20pt}}
+\theorembodyfont{\normalfont}
+\theoremseparator{.\,—}
+\theorempostwork{\hfill$\Box$}
+\renewtheorem{proof}{Proof}
+
+% Changes figure counter to be by-section instead of global
+% (e.g. Figure 3.1 for the first figure of sect 3)
+\counterwithin{figure}{section}
+
+
+% Theorem environment names
+    \def\propositionautorefname{Prop.}
+    \providecommand*{\theoremautorefname}{Thm.}
+    \providecommand*{\conjectureautorefname}{Conjecture}
+    \providecommand*{\corollaryautorefname}{Corollary}
+    \def\lemmaautorefname{Lemma}
+    \def\sectionautorefname{Sect.}
+    \def\subsectionautorefname{}
+    \def\subsubsectionautorefname{}
+    \providecommand*{\alignautorefname}{Eq.}
+    \def\equationautorefname{}
+    \providecommand*{\definitionautorefname}{Defn.}
+    \providecommand*{\noteautorefname}{Note}
+    \providecommand*{\exampleautorefname}{Example}
+
+% Streamline the declaration and cross-linking of theorems in the main body and proofs in appendix
+
+    % Declare this to be true when the appendices start
+    \newif\ifappendix
+    \appendixfalse
+
+    \newcommand{\state}[2][proposition]{%
+        \ifappendix%
+            \begin{titleless}[\autoref{state:#2}]%
+        \else%
+            \begin{#1}\label{state:#2}%
+        \fi%
+            \input{statements/#2}%
+        \ifappendix%
+            \end{titleless}%
+        \else%
+            \end{#1}%
+        \fi%
+    }
+    \newcommand{\define}[2][]{%
+        \ifappendix%
+            \begin{defn}[\autoref{def:#2}]%
+        \else%
+            \ifx\\#1\\%
+                \begin{definition}%
+            \else%
+                \begin{definition}[#1]%
+            \fi%
+            \label{def:#2}%
+        \fi%
+        \input{defn/#2}%
+        \ifappendix%
+            \end{defn}%
+        \else%
+            \end{definition}%
+        \fi%
+    }
+    \newcommand{\initDefine}[2][]{%
+            \ifx\\#1\\%
+                \begin{definition}%
+            \else%
+                \begin{definition}[#1]%
+            \fi%
+            \label{def:#2}%
+        \input{defn/#2}%
+            \end{definition}%
+    }
+    \newcommand{\Note}[2][]{%
+            \ifx\\#1\\%
+                \begin{note}%
+            \else%
+                \begin{note}[#1]%
+            \fi%
+            \label{note:#2}%
+        \input{notes/#2}%
+            \end{note}%
+    }
+    \newcommand{\Example}[2][]{%
+            \ifx\\#1\\%
+                \begin{example}%
+            \else%
+                \begin{example}[#1]%
+            \fi%
+            \label{exm:#2}%
+        \input{examples/#2}%
+            \end{example}%
+    }
+    \newcommand{\prove}[2][proposition]{%
+        \state[#1]{#2}%
+        \begin{proof}%
+            \input{proofs/#2}%
+        \end{proof}%
+        }
+    \newcommand{\initProve}[2][proposition]{%
+        \begin{#1}\label{state:#2}%
+            \input{statements/#2}%
+        \end{#1}
+        \begin{proof}%
+            \input{proofs/#2}%
+        \end{proof}%
+        }
+
+    \newcommand{\stateDesc}[3][proposition]{%
+        %\ifappendix%
+        %    \begin{titleless}[\autoref{state:#2}]%
+        %\else%
+        \begin{#1}[#3]\label{state:#2}%
+        %\fi%
+            \input{statements/#2}%
+        %\ifappendix%
+        %    \end{titleless}%
+        %\else%
+            \end{#1}%
+        %\fi%
+    }
+    \newcommand{\proveDesc}[3][proposition]{%
+        \stateDesc[#1]{#2}{#3}%
+        \begin{proof}%
+            \input{proofs/#2}%
+        \end{proof}%
+        }
+
+    \newcommand{\fig}[2][]{%
+        \begin{figure}[ht]%
+            \centering%
+            \def\svgwidth{\columnwidth}%
+            \import{./figures/}{#2.pdf_tex}%
+            \ifx\\#1\\\else\caption{#1}\fi%
+            \label{fig:#2}%
+        \end{figure}%
+    }
+    \newcommand{\figsmall}[3][]{%
+        \begin{figure}[ht]%
+            \centering%
+            \def\svgwidth{#3}%
+            \import{./figures/}{#2.pdf_tex}%
+            \ifx\\#1\\\else\caption{#1}\fi%
+            \label{fig:#2}%
+        \end{figure}%
+    }
+    \newcommand{\figCap}[3][]{%
+        \begin{figure}[ht]%
+            \centering%
+            \def\svgwidth{\columnwidth}%
+            \import{./figures/}{#2.pdf_tex}%
+            \ifx\\#1\\\else\caption{#1}\fi%
+            {\small #3}%
+            \label{fig:#2}%
+        \end{figure}%
+    }
+    \newcommand{\doubleFigCap}[4]{%
+        \begin{figure}[ht]%
+            \centering%
+            \begin{minipage}{0.45\columnwidth}
+            \centering%
+            \def\svgwidth{\columnwidth}%
+            \import{./figures/}{#1.pdf_tex}%
+            \caption{}%
+            {\small #2}%
+            \label{fig:#1}%
+            \end{minipage}\hfill%
+        %\end{figure}%
+        %\begin{figure}[ht]%
+        %    \centering%
+            \begin{minipage}{0.45\columnwidth}%
+            \centering%
+            \def\svgwidth{\columnwidth}%
+            \import{./figures/}{#3.pdf_tex}%
+            \caption{}%
+            {\small #4}%
+            \label{fig:#3}%
+            \end{minipage}%
+        \end{figure}%
+    }
+
+\newcommand{\embedColor}[3]{\mbox{#1 \color{#2}{#3}}}
+
+
